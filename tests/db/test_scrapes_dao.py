@@ -22,12 +22,12 @@ import unittest
 import jsonpickle
 
 import dao.scrapes_dao as dao
+import scrapers.gg_scraper
 
-from scrapers.gg_scraper import GGScraper
 
 class ScrapesDAOTest(unittest.TestCase):
     def test_save_scrape(self):
-        scraper = GGScraper("counterstrike")
+        scraper = scrapers.gg_scraper.GGScraper("counterstrike")
 
         storage = dao.ScrapesDAO()
 

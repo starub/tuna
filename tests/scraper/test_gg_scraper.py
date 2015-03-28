@@ -21,59 +21,55 @@ import unittest
 
 import jsonpickle
 
-from scrapers.gg_scraper import GGScraper
+import scrapers.gg_scraper as sc
 
 
 class GGScraperTest(unittest.TestCase):
+
+    @unittest.skip
     def test_scrape_all(self):
-        scrapers = [GGScraper('counterstrike'), GGScraper('dota2'), GGScraper('lol'), GGScraper('hearthstone'),
-                    GGScraper('heroesofthestorm')]
+        scrapers = [sc.GGScraper('counterstrike'), sc.GGScraper('dota2'), sc.GGScraper('lol'), sc.GGScraper('hearthstone'),
+                    sc.GGScraper('heroesofthestorm')]
 
         with ThreadPoolExecutor(max_workers=len(scrapers)) as executor:
             results = list(executor.map(lambda scraper: scraper.scrape(), scrapers))
 
         print(jsonpickle.encode(results, unpicklable=False))
 
-
-    @unittest.skip
     def test_csgo(self):
-        scraper = GGScraper('counterstrike')
+        scraper = sc.GGScraper('counterstrike')
 
         matches = scraper.scrape()
 
         print(jsonpickle.encode(matches['live'], unpicklable=False))
         print(jsonpickle.encode(matches['upcoming'], unpicklable=False))
 
-    @unittest.skip
     def test_dota2(self):
-        scraper = GGScraper('dota2')
+        scraper = sc.GGScraper('dota2')
 
         matches = scraper.scrape()
 
         print(jsonpickle.encode(matches['live'], unpicklable=False))
         print(jsonpickle.encode(matches['upcoming'], unpicklable=False))
 
-    @unittest.skip
     def test_lol(self):
-        scraper = GGScraper('lol')
+        scraper = sc.GGScraper('lol')
 
         matches = scraper.scrape()
 
         print(jsonpickle.encode(matches['live'], unpicklable=False))
         print(jsonpickle.encode(matches['upcoming'], unpicklable=False))
 
-    @unittest.skip
     def test_hearthstone(self):
-        scraper = GGScraper('hearthstone')
+        scraper = sc.GGScraper('hearthstone')
 
         matches = scraper.scrape()
 
         print(jsonpickle.encode(matches['live'], unpicklable=False))
         print(jsonpickle.encode(matches['upcoming'], unpicklable=False))
 
-    @unittest.skip
     def test_hots(self):
-        scraper = GGScraper('heroesofthestorm')
+        scraper = sc.GGScraper('heroesofthestorm')
 
         matches = scraper.scrape()
 
