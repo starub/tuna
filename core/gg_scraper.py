@@ -87,7 +87,7 @@ class GGScraper:
             raw = response.read()
             response.close()
             
-            return bs4.BeautifulSoup(raw, 'lxml');
+            return bs4.BeautifulSoup(raw);
         
         except:
             self.logger.error('exception requesting {0}'.format(url))

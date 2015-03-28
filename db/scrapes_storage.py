@@ -5,7 +5,7 @@ class ScrapesStorage():
     
     def __init__(self):
         client = pymongo.MongoClient()
-        self.db = client.scrapesdb
+        self.db = client.tuna
         self.collection = self.db.scrapes
                 
     def add(self, scrape):
