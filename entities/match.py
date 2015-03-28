@@ -15,3 +15,12 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 '''
+
+
+class Match:
+    def __init__(self):
+        self.title = None
+        self.time = None
+        self.stage = None
+        self.opponent1 = None
+        self.opponent2 = None

@@ -15,3 +15,25 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 '''
+
+import json
+import unittest
+
+import jsonpickle
+
+import dao.scrapes_dao as dao
+
+from scrapers.gg_scraper import GGScraper
+
+class ScrapesDAOTest(unittest.TestCase):
+    def test_save_scrape(self):
+        scraper = GGScraper("counterstrike")
+
+        storage = dao.ScrapesDAO()
+
+        raw = scraper.scrape()
+        encoded = jsonpickle.encode(raw, unpicklable=False)
+        json_data = json.loads(encoded)
+
+        storage.add(json_data)
+        

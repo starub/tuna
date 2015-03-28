@@ -1,4 +1,4 @@
-'''
+''' 
 
 Copyright (C) 2015 Stanislavs Rubens (starub_at_protonmail_dot_ch)
 
@@ -15,3 +15,12 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 '''
+
+import pymongo
+
+import config.config as cfg
+
+
+class BaseDAO():
+    client = pymongo.MongoClient(host=cfg.TUNA_CONFIG.get('MONGODB', 'host'),
+                                 port=cfg.TUNA_CONFIG.getint('MONGODB', 'port'))

@@ -1,4 +1,4 @@
-'''
+''' 
 
 Copyright (C) 2015 Stanislavs Rubens (starub_at_protonmail_dot_ch)
 

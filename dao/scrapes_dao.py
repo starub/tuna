@@ -15,3 +15,17 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 '''
+
+import dao.base_dao as dao
+
+import config.config as cfg
+
+
+class ScrapesDAO():
+    def __init__(self):
+        self.collection = dao.BaseDAO.client[cfg.TUNA_CONFIG.get('MONGODB', 'db_name')][
+            cfg.TUNA_CONFIG.get('MONGODB', 'scrapes_collection')]
+
+    def add(self, scrape):
+        self.collection.insert(scrape)
+    

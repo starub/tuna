@@ -1,4 +1,4 @@
-'''
+''' 
 
 Copyright (C) 2015 Stanislavs Rubens (starub_at_protonmail_dot_ch)
 
@@ -15,3 +15,21 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
 '''
+
+import os
+import configparser
+import logging
+
+TUNA_CONFIG = configparser.ConfigParser()
+
+TUNA_CONFIG.read(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'scrapers.ini'))
+TUNA_CONFIG.read(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'db.ini'))
+TUNA_CONFIG.read(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'logging.ini'))
+
+logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s - %(message)s',
+                    level=TUNA_CONFIG.get('LOGGING', 'level'))
+
+
+def getLogger(name):
+    logger = logging.getLogger(name)
+    return logger
