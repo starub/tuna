@@ -30,6 +30,6 @@ logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s - %(message)s
                     level=TUNA_CONFIG.get('LOGGING', 'level'))
 
 
-def getLogger(name):
+def get_logger(name):
     logger = logging.getLogger(name)
     return logger

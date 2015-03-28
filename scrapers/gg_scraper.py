@@ -35,7 +35,7 @@ class GGScraper:
         self.sub_url = '/' + part + cfg.TUNA_CONFIG.get('GOSU_GAMERS', 'prefix')
         self.scraper = part
         self.ua = fake_useragent.UserAgent()
-        self.logger = cfg.getLogger(__name__ + '.' + part)
+        self.logger = cfg.get_logger(__name__ + '.' + part)
 
 
     def get_matches(self, div):
