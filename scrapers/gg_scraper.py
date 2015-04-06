@@ -18,25 +18,20 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 import concurrent.futures.thread
 import time
-import traceback
-import urllib
-
-import bs4
-import fake_useragent
 
 import config.config as cfg
 import entities.match
 import entities.opponent
+import scrapers.base_scraper as scraper
 
-
-class GGScraper:
+class GGScraper(scraper.BaseScraper):
+    
     def __init__(self, part):
+        super().__init__()
         self.root_url = cfg.TUNA_CONFIG.get('GOSU_GAMERS', 'url')
         self.sub_url = '/' + part + cfg.TUNA_CONFIG.get('GOSU_GAMERS', 'prefix')
         self.scraper = part
-        self.ua = fake_useragent.UserAgent()
         self.logger = cfg.get_logger(__name__ + '.' + part)
-
 
     def get_matches(self, div):
         table = div.find('table', {'class': 'simple matches'})
@@ -51,7 +46,7 @@ class GGScraper:
     def parse_tr(self, tr):
         a = tr.find('a', {'class': 'match'})
 
-        html = self.get_html(self.root_url + a['href'])
+        html = super(GGScraper, self).get_html(self.root_url + a['href'])
 
         if html is None:
             return None
@@ -83,43 +78,20 @@ class GGScraper:
 
         return match
 
-
-    def get_html(self, url):
-        ua = self.ua.random
-
-        headers = {'User-Agent': ua, 'Referer': url, 'Pragma': 'no-cache'}
-
-        req = urllib.request.Request(url, None, headers)
-
-        self.logger.info('requesting {0}'.format(url))
-
-        try:
-
-            response = urllib.request.urlopen(req)
-            raw = response.read()
-            response.close()
-
-            return bs4.BeautifulSoup(raw);
-
-        except:
-            self.logger.error('exception requesting {0}'.format(url))
-            traceback.print_exc()
-
-
     def scrape(self):
         url = self.root_url + self.sub_url
 
         self.logger.info('start scraping {0}'.format(url))
 
-        html = self.get_html(url)
+        html = super(GGScraper, self).get_html(url)
 
         if html is None:
             return None
 
         divs = html.find('div', id='col1').find_all('div', {'class': 'box'})
 
-        # 1 - Live Matches
-        # 2 - Upcoming Matches
+        # 0 - Live Matches
+        # 1 - Upcoming Matches
 
         self.logger.info('getting live matches...')
         live_matches = self.get_matches(divs[0])

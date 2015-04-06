@@ -16,9 +16,12 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 '''
 
+import entities.base_entity as entity
 
-class Match:
+
+class Match(entity.BaseEntity):
     def __init__(self):
+        super().__init__()
         self.title = None
         self.time = None
         self.stage = None

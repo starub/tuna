@@ -22,9 +22,11 @@ import logging
 
 TUNA_CONFIG = configparser.ConfigParser()
 
-TUNA_CONFIG.read(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'scrapers.ini'))
-TUNA_CONFIG.read(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'db.ini'))
-TUNA_CONFIG.read(os.path.join(os.path.abspath(os.path.dirname(__file__)), 'logging.ini'))
+curr_dir = os.path.abspath(os.path.dirname(__file__))
+
+TUNA_CONFIG.read(os.path.join(curr_dir, 'scrapers.ini'))
+TUNA_CONFIG.read(os.path.join(curr_dir, 'db.ini'))
+TUNA_CONFIG.read(os.path.join(curr_dir, 'logging.ini'))
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(name)s - %(message)s',
                     level=TUNA_CONFIG.get('LOGGING', 'level'))

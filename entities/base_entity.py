@@ -16,16 +16,5 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 '''
 
-import pymongo
-
-import config.config as cfg
-
-
-class BaseDAO():
-    
-    def __init__(self):
-        self.client = pymongo.MongoClient(host=cfg.TUNA_CONFIG.get('MONGODB', 'host'),
-                                 port=cfg.TUNA_CONFIG.getint('MONGODB', 'port'))
-    
-    def get_client(self):
-        return self.client
+class BaseEntity:
+    pass

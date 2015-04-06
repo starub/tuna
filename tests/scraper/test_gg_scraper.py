@@ -26,7 +26,6 @@ import scrapers.gg_scraper as sc
 
 class GGScraperTest(unittest.TestCase):
 
-    @unittest.skip
     def test_scrape_all(self):
         scrapers = [sc.GGScraper('counterstrike'), sc.GGScraper('dota2'), sc.GGScraper('lol'), sc.GGScraper('hearthstone'),
                     sc.GGScraper('heroesofthestorm')]

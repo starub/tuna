@@ -1,4 +1,4 @@
-''' 
+'''
 
 Copyright (C) 2015 Stanislavs Rubens (starub_at_protonmail_dot_ch)
 
@@ -16,16 +16,34 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 '''
 
-import pymongo
-
+import urllib
+import bs4
+import traceback
+import fake_useragent
 import config.config as cfg
 
+class BaseScraper:
 
-class BaseDAO():
-    
     def __init__(self):
-        self.client = pymongo.MongoClient(host=cfg.TUNA_CONFIG.get('MONGODB', 'host'),
-                                 port=cfg.TUNA_CONFIG.getint('MONGODB', 'port'))
+        self.ua = fake_useragent.UserAgent()
+        self.logger = cfg.get_logger(__name__)
     
-    def get_client(self):
-        return self.client
+    def get_html(self, url):
+
+        headers = {'User-Agent': self.ua.random, 'Referer': url, 'Pragma': 'no-cache'}
+
+        req = urllib.request.Request(url, None, headers)
+
+        self.logger.info('requesting {0}'.format(url))
+
+        try:
+
+            response = urllib.request.urlopen(req)
+            raw = response.read()
+            response.close()
+
+            return bs4.BeautifulSoup(raw);
+
+        except:
+            self.logger.error('exception requesting {0}'.format(url))
+            traceback.print_exc()
