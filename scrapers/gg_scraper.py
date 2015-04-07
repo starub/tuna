@@ -36,7 +36,7 @@ class GGScraper(scraper.BaseScraper):
     def get_matches(self, div):
         table = div.find('table', {'class': 'simple matches'})
 
-        if table is not None:
+        if table:
             trs = table.find_all('tr')
 
             with concurrent.futures.thread.ThreadPoolExecutor(max_workers=len(trs)) as executor:
@@ -48,7 +48,7 @@ class GGScraper(scraper.BaseScraper):
 
         html = super(GGScraper, self).get_html(self.root_url + a['href'])
 
-        if html is None:
+        if not html:
             return None
 
         match = entities.match.Match()
@@ -58,7 +58,8 @@ class GGScraper(scraper.BaseScraper):
         match.stage = html.fieldset.label.text.strip()
 
         timeTag = html.find('div', {'class': 'match-extras'}).find('p', {'class': 'datetime'})
-        if timeTag is not None:
+        
+        if timeTag:
             match.time = timeTag.text.strip()
 
         match.bestof = html.find('div', {'class': 'match-extras'}).find('p', {'class': 'bestof'}).text.strip()
@@ -85,7 +86,7 @@ class GGScraper(scraper.BaseScraper):
 
         html = super(GGScraper, self).get_html(url)
 
-        if html is None:
+        if not html:
             return None
 
         divs = html.find('div', id='col1').find_all('div', {'class': 'box'})
@@ -103,7 +104,7 @@ class GGScraper(scraper.BaseScraper):
 
         return {
             'timestamp': time.time(),
-            'scrapers': self.scraper,
+            'scraper': self.scraper,
             'live': live_matches if live_matches is not None else [],
             'upcoming': upcoming_matches if upcoming_matches is not None else []
         }

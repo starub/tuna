@@ -16,6 +16,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 '''
 
+import jsonpickle
 import unittest
 
 import scrapers.tl_scraper as sc
@@ -26,10 +27,5 @@ class TLScraperTest(unittest.TestCase):
     def test_scrape(self):
         scraper = sc.TLScraper()
         events = scraper.scrape()
-        for event in events:
-            print(event.title)
-            print(event.time)
-            for match in event.matches:
-                print(match.map)
-                print(match.opponent1.name)
-                print(match.opponent2.name)
+        print(jsonpickle.encode(events, unpicklable=False))
+        

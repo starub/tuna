@@ -17,6 +17,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 '''
 
 import datetime
+import time
 
 import config.config as cfg
 import entities.event
@@ -35,7 +36,7 @@ class TLScraper(scraper.BaseScraper):
         
         now = datetime.date.today()
 
-        rootUrl = 'http://www.teamliquid.net/calendar/{}/{}/?tourney=16'.format(now.year, now.strftime('%m'))
+        rootUrl = cfg.TUNA_CONFIG.get('TEAM_LIQUID', 'url').format(now.year, now.strftime('%m'))
 
         html = super(TLScraper, self).get_html(rootUrl)
         
@@ -44,17 +45,18 @@ class TLScraper(scraper.BaseScraper):
         events = []
         
         for table in tables:
-            
+                        
             event = entities.event.Event()
             
             event.title = table.find('span', style='font-size:12pt; font-weight:bold').text.strip()
             event.time = table.find('td', style='vertical-align:top;text-align:right;min-width:200px').find('strong', recursive=False).text.strip()
-
+            event.stream = table.find('td', style='vertical-align:top;width:570px').find('a', recursive=False)['href']
+            
             defined_matches_div = table.find('div', style='text-align:center')
             
-            if defined_matches_div is None:
+            if not defined_matches_div:
                 continue
-            
+
             links = defined_matches_div.find_all('a')
             
             for (o1, m, o2) in zip(*[iter(links)] * 3):
@@ -63,7 +65,10 @@ class TLScraper(scraper.BaseScraper):
                 opponent2 = entities.opponent.Opponent()
                 
                 opponent1.name = o1.text.strip()
+                opponent1.race = o1.previous_sibling['title']
+                
                 opponent2.name = o2.text.strip()
+                opponent2.race = o2.previous_sibling['title']
                 
                 match = entities.match.Match()
                 
@@ -74,6 +79,7 @@ class TLScraper(scraper.BaseScraper):
                 
                 event.matches.append(match)
             
-            events.append(event)
-        
-        return events
+            if event.matches:
+                events.append(event)
+
+        return {'timestamp' : time.time(), 'scraper' : 'teamliquid', 'events' : events}

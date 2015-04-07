@@ -22,6 +22,7 @@ import entities.base_entity as entity
 class Match(entity.BaseEntity):
     def __init__(self):
         super().__init__()
+        self.type = None
         self.title = None
         self.time = None
         self.stage = None
