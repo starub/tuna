@@ -90,7 +90,7 @@ class TLScraper(scraper.BaseScraper):
 
         self.logger.info('done scraping')
 
-        return {'timestamp' : time.time(), 'scraper' : 'sc2', 'live' : events, 'upcoming' : []}
+        return {'timestamp' : time.time(), 'scraper' : 'starcraft2', 'live' : events, 'upcoming' : []}
 
     def parse_time(self,time_string):
         return time_string.split(':', 1)[1].strip()

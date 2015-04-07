@@ -21,12 +21,12 @@ import dao.base_dao as dao
 import config.config as cfg
 
 
-class ScrapesDAO(dao.BaseDAO):
+class EventsDAO(dao.BaseDAO):
     def __init__(self):
         super().__init__()
-        self.collection = super(ScrapesDAO, self).get_client()[cfg.TUNA_CONFIG.get('MONGODB', 'db_name')][
-            cfg.TUNA_CONFIG.get('MONGODB', 'scrapes_collection')]
+        self.collection = super(EventsDAO, self).get_client()[cfg.TUNA_CONFIG.get('MONGODB', 'db_name')][
+            cfg.TUNA_CONFIG.get('MONGODB', 'events_collection')]
 
-    def add(self, scrape):
-        self.collection.insert(scrape)
+    def add(self, events):
+        self.collection.insert(events)
     

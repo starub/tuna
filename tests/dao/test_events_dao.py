@@ -17,23 +17,22 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 '''
 
 import json
+import jsonpickle
 import unittest
 
-import jsonpickle
-
-import dao.scrapes_dao as dao
+import dao.events_dao as dao
 import scrapers.gg_scraper
+import scrapers.tl_scraper
 
 
-class ScrapesDAOTest(unittest.TestCase):
+class EventsDAOTest(unittest.TestCase):
     def test_save_scrape(self):
-        scraper = scrapers.gg_scraper.GGScraper("counterstrike")
 
-        storage = dao.ScrapesDAO()
+        gg_scraper = scrapers.gg_scraper.GGScraper("counterstrike")
+        tl_scraper = scrapers.tl_scraper.TLScraper()
 
-        raw = scraper.scrape()
-        encoded = jsonpickle.encode(raw, unpicklable=False)
-        json_data = json.loads(encoded)
+        events_dao = dao.EventsDAO()
 
-        storage.add(json_data)
+        events_dao.add(json.loads(jsonpickle.encode(gg_scraper.scrape(), unpicklable=False)))
+        events_dao.add(json.loads(jsonpickle.encode(tl_scraper.scrape(), unpicklable=False)))
         
