@@ -16,13 +16,12 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 
 '''
 
-import entities.base_entity as entity
+import entities.base_entity
 
-class Opponent(entity.BaseEntity):
-
+class Event(entities.base_entity.BaseEntity):
+    
     def __init__(self):
         super().__init__()
-        self.name = None
-        self.race = None
-        self.rank = None
-            
+        self.title = None
+        self.time = None
+        self.matches = []

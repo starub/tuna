@@ -25,4 +25,11 @@ class TLScraperTest(unittest.TestCase):
     
     def test_scrape(self):
         scraper = sc.TLScraper()
-        scraper.scrape()
+        events = scraper.scrape()
+        for event in events:
+            print(event.title)
+            print(event.time)
+            for match in event.matches:
+                print(match.map)
+                print(match.opponent1.name)
+                print(match.opponent2.name)

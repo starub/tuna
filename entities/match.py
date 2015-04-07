@@ -25,5 +25,6 @@ class Match(entity.BaseEntity):
         self.title = None
         self.time = None
         self.stage = None
+        self.map = None        
         self.opponent1 = None
         self.opponent2 = None
