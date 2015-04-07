@@ -36,9 +36,10 @@ class TLScraper(scraper.BaseScraper):
         
         now = datetime.date.today()
 
-        rootUrl = cfg.TUNA_CONFIG.get('TEAM_LIQUID', 'url').format(now.year, now.strftime('%m'))
+        rootUrl = cfg.TUNA_CONFIG.get('TEAM_LIQUID', 'url')
+        partUrl = cfg.TUNA_CONFIG.get('TEAM_LIQUID', 'prefix').format(now.year, now.strftime('%m'))
 
-        html = super(TLScraper, self).get_html(rootUrl)
+        html = super(TLScraper, self).get_html(rootUrl + partUrl)
         
         tables = html.find('div', id='calendar_{}content'.format(now.day)).find_all('table')
        
@@ -66,9 +67,11 @@ class TLScraper(scraper.BaseScraper):
                 
                 opponent1.name = o1.text.strip()
                 opponent1.race = o1.previous_sibling['title']
+                opponent1.profile = rootUrl + o1['href']
                 
                 opponent2.name = o2.text.strip()
                 opponent2.race = o2.previous_sibling['title']
+                opponent2.profile = rootUrl + o2['href']
                 
                 match = entities.match.Match()
                 

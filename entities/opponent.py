@@ -25,4 +25,5 @@ class Opponent(entity.BaseEntity):
         self.name = None
         self.race = None
         self.rank = None
+        self.profile = None
             
