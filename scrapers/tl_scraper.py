@@ -37,7 +37,7 @@ class TLScraper(scraper.BaseScraper):
                 
         now = datetime.date.today()
 
-        partUrl = cfg.TUNA_CONFIG.get('TEAM_LIQUID', 'prefix').format(now.year, now.strftime('%m'))
+        partUrl = cfg.TUNA_CONFIG.get('TEAM_LIQUID', 'prefix').format(now.year, now.strftime('%m'), now.strftime('%d'))
 
         self.logger.info('start scraping {0}'.format(self.rootUrl + partUrl))
 
@@ -48,7 +48,7 @@ class TLScraper(scraper.BaseScraper):
         events = []
         
         for table in tables:
-                        
+
             event = entities.event.Event()
             
             event.title = table.find('span', style='font-size:12pt; font-weight:bold').text.strip()
