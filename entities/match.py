@@ -22,10 +22,11 @@ import entities.base_entity as entity
 class Match(entity.BaseEntity):
     def __init__(self):
         super().__init__()
+        self.bestof = None
         self.type = None
         self.title = None
         self.time = None
         self.stage = None
-        self.map = None        
+        self.stage_link = None     
         self.opponent1 = None
         self.opponent2 = None

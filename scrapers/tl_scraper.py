@@ -31,15 +31,17 @@ class TLScraper(scraper.BaseScraper):
     def __init__(self):
         super().__init__()
         self.logger = cfg.get_logger(__name__)
-   
+        self.rootUrl = cfg.TUNA_CONFIG.get('TEAM_LIQUID', 'url')
+
     def scrape(self):
-        
+                
         now = datetime.date.today()
 
-        rootUrl = cfg.TUNA_CONFIG.get('TEAM_LIQUID', 'url')
         partUrl = cfg.TUNA_CONFIG.get('TEAM_LIQUID', 'prefix').format(now.year, now.strftime('%m'))
 
-        html = super(TLScraper, self).get_html(rootUrl + partUrl)
+        self.logger.info('start scraping {0}'.format(self.rootUrl + partUrl))
+
+        html = super(TLScraper, self).get_html(self.rootUrl + partUrl)
         
         tables = html.find('div', id='calendar_{}content'.format(now.day)).find_all('table')
        
@@ -50,8 +52,8 @@ class TLScraper(scraper.BaseScraper):
             event = entities.event.Event()
             
             event.title = table.find('span', style='font-size:12pt; font-weight:bold').text.strip()
-            event.time = table.find('td', style='vertical-align:top;text-align:right;min-width:200px').find('strong', recursive=False).text.strip()
-            event.stream = table.find('td', style='vertical-align:top;width:570px').find('a', recursive=False)['href']
+            event.time = self.parse_time(table.find('td', style='vertical-align:top;text-align:right;min-width:200px').find('strong', recursive=False).text.strip())
+            event.stream_link = table.find('td', style='vertical-align:top;width:570px').find('a', recursive=False)['href']
             
             defined_matches_div = table.find('div', style='text-align:center')
             
@@ -67,22 +69,28 @@ class TLScraper(scraper.BaseScraper):
                 
                 opponent1.name = o1.text.strip()
                 opponent1.race = o1.previous_sibling['title']
-                opponent1.profile = rootUrl + o1['href']
+                opponent1.profile_link = self.rootUrl + o1['href']
                 
                 opponent2.name = o2.text.strip()
                 opponent2.race = o2.previous_sibling['title']
-                opponent2.profile = rootUrl + o2['href']
+                opponent2.profile_link = self.rootUrl + o2['href']
                 
                 match = entities.match.Match()
                 
                 match.opponent1 = opponent1
                 match.opponent2 = opponent2
 
-                match.map = m.text.strip()
+                match.stage = m.text.strip()
+                match.stage_link = self.rootUrl + m['href']
                 
                 event.matches.append(match)
             
             if event.matches:
                 events.append(event)
 
-        return {'timestamp' : time.time(), 'scraper' : 'teamliquid', 'events' : events}
+        self.logger.info('done scraping')
+
+        return {'timestamp' : time.time(), 'scraper' : 'sc2', 'live' : events, 'upcoming' : []}
+
+    def parse_time(self,time_string):
+        return time_string.split(':', 1)[1].strip()

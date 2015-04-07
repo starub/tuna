@@ -24,5 +24,5 @@ class Event(entities.base_entity.BaseEntity):
         super().__init__()
         self.title = None
         self.time = None
-        self.stream = None
+        self.stream_link = None
         self.matches = []

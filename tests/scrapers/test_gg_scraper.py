@@ -38,39 +38,39 @@ class GGScraperTest(unittest.TestCase):
     def test_csgo(self):
         scraper = sc.GGScraper('counterstrike')
 
-        matches = scraper.scrape()
+        events = scraper.scrape()
 
-        print(jsonpickle.encode(matches['live'], unpicklable=False))
-        print(jsonpickle.encode(matches['upcoming'], unpicklable=False))
+        print(jsonpickle.encode(events['live'], unpicklable=False))
+        print(jsonpickle.encode(events['upcoming'], unpicklable=False))
 
     def test_dota2(self):
         scraper = sc.GGScraper('dota2')
 
-        matches = scraper.scrape()
+        events = scraper.scrape()
 
-        print(jsonpickle.encode(matches['live'], unpicklable=False))
-        print(jsonpickle.encode(matches['upcoming'], unpicklable=False))
+        print(jsonpickle.encode(events['live'], unpicklable=False))
+        print(jsonpickle.encode(events['upcoming'], unpicklable=False))
 
     def test_lol(self):
         scraper = sc.GGScraper('lol')
 
-        matches = scraper.scrape()
+        events = scraper.scrape()
 
-        print(jsonpickle.encode(matches['live'], unpicklable=False))
-        print(jsonpickle.encode(matches['upcoming'], unpicklable=False))
+        print(jsonpickle.encode(events['live'], unpicklable=False))
+        print(jsonpickle.encode(events['upcoming'], unpicklable=False))
 
     def test_hearthstone(self):
         scraper = sc.GGScraper('hearthstone')
 
-        matches = scraper.scrape()
+        events = scraper.scrape()
 
-        print(jsonpickle.encode(matches['live'], unpicklable=False))
-        print(jsonpickle.encode(matches['upcoming'], unpicklable=False))
+        print(jsonpickle.encode(events['live'], unpicklable=False))
+        print(jsonpickle.encode(events['upcoming'], unpicklable=False))
 
     def test_hots(self):
         scraper = sc.GGScraper('heroesofthestorm')
 
-        matches = scraper.scrape()
+        events = scraper.scrape()
 
-        print(jsonpickle.encode(matches['live'], unpicklable=False))
-        print(jsonpickle.encode(matches['upcoming'], unpicklable=False))
+        print(jsonpickle.encode(events['live'], unpicklable=False))
+        print(jsonpickle.encode(events['upcoming'], unpicklable=False))
