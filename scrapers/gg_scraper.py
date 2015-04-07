@@ -96,9 +96,6 @@ class GGScraper(scraper.BaseScraper):
 
         divs = html.find('div', id='col1').find_all('div', {'class': 'box'})
 
-        # 0 - Live Matches
-        # 1 - Upcoming Matches
-
         self.logger.info('getting live events...')
         live_events = self.get_events(divs[0])
 
